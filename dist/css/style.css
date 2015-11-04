@@ -1,0 +1,52 @@
+
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+  #checkbox .sample2 {
+    width: 300px;
+    clear: both;
+    font-weight: 400;
+  }
+
+  #checkbox .sample2 {
+    padding: 10px 0;
+
+  }
+
+  #checkbox .sample2 .checkbox {
+    float: right;
+    margin: 0;
+  
+  }
+.container
+{
+  width: 600px;
+  background-color: #5bbcb3;
+  padding: 1px 5px 5px 5px ;
+}
+.row
+{
+  padding-left: 15px;
+  padding-top: 3px;
+}
+.checkbox
+{
+  display: inline-block;
+  position: relative;
+}
+h5
+{
+  color: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  display: inline-block;
+}
+h4
+{
+  color: #000;
+  font-family: 'Ubuntu', sans-serif;
+  display: inline-block;
+}
+.heading
+{
+  background-color: #fff;
+  padding: 1px 5px 1px 15px; 
+
+}
