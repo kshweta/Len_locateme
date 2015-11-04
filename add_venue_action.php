@@ -6,12 +6,14 @@ include_once('dbconfig.php');
 
 if(isset($_FILES['mapimage']) && isset($_POST['submit']))
 
-{
+{	static $i=1;
 	
-	$mname=$_POST['mname'];
 	$mdesc=$_POST['mdesc'];
 	$length=$_POST['length'];
 	$breadth=$_POST['breadth'];
+	$pixelx=$_POST['pixelx'];
+	$pixely=$_POST['pixely'];
+
 
 
 	$ap1_ssid=$_POST['ap1_ssid'];
@@ -39,25 +41,26 @@ if(isset($_FILES['mapimage']) && isset($_POST['submit']))
 	$ap3_y=$_POST['ap3_y'];
 	$ap4_y=$_POST['ap4_y'];
 
-	$a="venue_".$mname."_";
-	$i=rand(1,10);
-	$temp=$a.$i;
+
+	$temp="venue_abc_".$i++;
 	$mid = md5(md5($temp)."bshikhar13");
 	$image=md5(md5($mid."map")+"bshikhar13");
 	$img_url = "maps/";
 	$ext = pathinfo($_FILES['mapimage']['name'], PATHINFO_EXTENSION);
-	$img_url= $img_url.$image.".".$ext;
+	$image=$image.".".$ext;
+	$img_url= $img_url.$image;
+	
 	move_uploaded_file($_FILES['mapimage']['tmp_name'], $img_url);
 	
-	$querry1="INSERT INTO `venuedata`(`mid`, `mname`, `mdesc`, `img_url`, `length`, `breadth`, `ap1`, `ap2`, `ap3`, `ap4`) VALUES ('$mid','$mname','$mdesc','$img_url','$length','$breadth','$ap1_ssid','$ap2_ssid','$ap3_ssid','$ap4_ssid')";
+	$querry1="INSERT INTO `venuedata`(`id`,`description`,`img_url`,`length`,`breadth`, `ap1`, `ap2`, `ap3`, `ap4`,`pixelX`, `pixelY`) VALUES ('$mid','$mdesc','$image','$length','$breadth','$ap1_ssid','$ap2_ssid','$ap3_ssid','$ap4_ssid','$pixelx','$pixely')";
 	$result1=mysql_query($querry1);
-	$querry2="INSERT INTO `apdata`(`mid`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap1_ssid','$ap1_a','$ap1_n','$ap1_x','$ap1_y')";
+	$querry2="INSERT INTO `apdata`(`id`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap1_ssid','$ap1_a','$ap1_n','$ap1_x','$ap1_y')";
 	$result2=mysql_query($querry2);
-	$querry3="INSERT INTO `apdata`(`mid`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap2_ssid','$ap2_a','$ap2_n','$ap2_x','$ap2_y')";
+	$querry3="INSERT INTO `apdata`(`id`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap2_ssid','$ap2_a','$ap2_n','$ap2_x','$ap2_y')";
 	$result3=mysql_query($querry3);
-	$querry4="INSERT INTO `apdata`(`mid`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap3_ssid','$ap3_a','$ap3_n','$ap3_x','$ap3_y')";
+	$querry4="INSERT INTO `apdata`(`id`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap3_ssid','$ap3_a','$ap3_n','$ap3_x','$ap3_y')";
 	$result4=mysql_query($querry4);
-	$querry5="INSERT INTO `apdata`(`mid`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap4_ssid','$ap4_a','$ap4_n','$ap4_x','$ap4_y')";
+	$querry5="INSERT INTO `apdata`(`id`,`ap_ssid`, `A`, `n`, `x`, `y`) VALUES ('$mid','$ap4_ssid','$ap4_a','$ap4_n','$ap4_x','$ap4_y')";
 	$result5=mysql_query($querry5);
 
 

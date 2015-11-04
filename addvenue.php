@@ -38,7 +38,6 @@ include_once('dbconfig.php');
     <table class="table table-striped table-hover ">
     <thead>
         <tr class="info">
-            <th>Name</th>
             <th>Description</th>
             <th>Image</th>
             <th>FLoor Length</th>
@@ -58,32 +57,39 @@ include_once('dbconfig.php');
                  $counter = 1;
                 while($row=mysql_fetch_array($result1)){
                         $mid=$row[0];
-                        $mname=$row[1];
-                        $mdesc=$row[2];
-                        $img_url=$row[3];
-                        $length=$row[4];
-                        $breadth=$row[5];
-                        $ap1=$row[6];
-                        $ap2=$row[7];
-                        $ap3=$row[8];
-                        $ap4=$row[9];
+                        $mdesc=$row[1];
+                        $img_url=$row[2];
+                        $length=$row[3];
+                        $breadth=$row[4];
+                        $ap1=$row[5];
+                        $ap2=$row[6];
+                        $ap3=$row[7];
+                        $ap4=$row[8];
+                        $pixelx=$row[9];
+                        $pixely=$row[10];
              ?>
        <tr class="warning">
-            <td><?php echo $mname;?></td>
-            <td><?php echo $mdesc;?></td>
+               <td><?php echo $mdesc;?></td>
             <td>
-             <a><img src="<?php echo $img_url;?>" data-toggle="modal" data-target="<?php echo "#".$counter;?>" height="100px" width="100%"></a>
+             <a><img src="<?php echo "maps/".$img_url;?>" data-toggle="modal" data-target="<?php echo "#".$counter;?>" height="100px" width="100%"></a>
               <div id="<?php echo $counter;?>" class="modal fade" tabindex="-1">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-body">
-                       <img src="<?php echo $img_url;?>" height="500px" width="100%">
+                       <img src="<?php echo "maps/".$img_url;?>" height="300px" width="100%">
+                       <?php echo "Dimension : ("; ?>
+                       <?php echo $pixelx; ?>
+                       <?php echo "X" ?>
+                       <?php echo $pixely; ?>
+                       <?php echo ") pixels" ?>
                        <div class="form-group">
                         <label for="changeimage" class="col-lg-2 control-label">Change Image</label>
                         <div class="col-lg-10">
                           <form method="POST" action="changeimage.php" enctype="multipart/form-data">
                             <input type="file" name="changeimage" placeholder="upload" required>
                             <input type="hidden" name="foo" value="<?php echo $mid;?>">
+                            <input type="number" name="pixelx" placeholder="Width(pixels)" required>
+                            <input type="number" name="pixely" placeholder="Height(pixels)" required> 
                              <button class="btn btn-primary" name="change" value="change">Change</button>
                           </form>
                         </div>
@@ -147,12 +153,7 @@ include_once('dbconfig.php');
                     <div class="modal-body">
                      <form class="form-horizontal" method="post" action="update_action.php" enctype="multipart/form-data">
                         <fieldset>
-                          <div class="form-group">
-                          <label for="mname" class="col-lg-2 control-label">Name</label>
-                          <div class="col-lg-10">
-                       <input type="text" class="form-control" name="mname" placeholder="Floor Name" value="<?php echo $mname;?>"required>
-                        </div>
-                    </div>
+                        
                     <div class="form-group">
                         <label for="mdesc" class="col-lg-2 control-label">Description</label>
                         <div class="col-lg-10">
@@ -173,7 +174,7 @@ include_once('dbconfig.php');
                          </div>
                     </div>
                      <?php 
-                    $querry2="SELECT * FROM `apdata` WHERE `mid` = '$mid'";
+                    $querry2="SELECT * FROM `apdata` WHERE `id` = '$mid'";
                     $result2=mysql_query($querry2);
                     $j=1;
                     while($row1=mysql_fetch_array($result2)){
@@ -225,7 +226,24 @@ include_once('dbconfig.php');
               </div>
               <form method="POST" action="delete_action.php">
                 <input type="hidden" value="<?php echo $mid?>" name="foo">
-                <button class="btn btn-flat btn-danger" name="delete" value="delete">Delete</button>
+                <a class="btn btn-flat btn-danger" data-toggle="modal" data-target="<?php echo '#'.$counter.'delete'?>">Delete</a>
+                <div class="modal" id="<?php echo $counter.'delete';?>" class="modal fade" tabindex="-1">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                              <h4 class="modal-title">Are you sure you to delete this map?</h4>
+                          </div>
+                          <div class="modal-body">
+                              <p>Once deleted, all data with the map will be deleted and cannot be recovered.</p>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                              <button type="submit" class="btn btn-primary" name="delete" value="delete">Yes, Delete</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
               </form>
                
           </td>
@@ -253,12 +271,6 @@ include_once('dbconfig.php');
       <div class="modal-body">
         <form class="form-horizontal" method="post" action="add_venue_action.php" enctype="multipart/form-data">
             <fieldset>
-                <div class="form-group">
-                    <label for="mname" class="col-lg-2 control-label">Name</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" name="mname" placeholder="Floor Name" required>
-                </div>
-              </div>
               <div class="form-group">
             <label for="mdesc" class="col-lg-2 control-label">Description</label>
             <div class="col-lg-10">
@@ -269,7 +281,9 @@ include_once('dbconfig.php');
         <div class="form-group">
             <label for="mapimage" class="col-lg-2 control-label">Map/Floor Image</label>
             <div class="col-lg-10">
-                <input type="file" name="mapimage" placeholder="upload" required>
+                <input type="file" name="mapimage" placeholder="upload" required><br>
+                 <input type="number" name="pixelx" placeholder="Width(pixels)" required>
+                 <input type="number" name="pixely" placeholder="Height(pixels)" required> 
             </div>
         </div>
         <div class="form-group">

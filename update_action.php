@@ -9,7 +9,6 @@ if(isset($_POST['update']))
 {	
 	$mid=$_POST['foo'];
 	
-	$mname=$_POST['mname'];
 	$mdesc=$_POST['mdesc'];
 	$length=$_POST['length'];
 	$breadth=$_POST['breadth'];
@@ -42,7 +41,7 @@ if(isset($_POST['update']))
 	
 	
 	
-	$querry1="UPDATE `venuedata` SET `mname`='$mname',`mdesc`='$mdesc',`length`='$length',`breadth`='$breadth' WHERE `mid` = '$mid'";
+	$querry1="UPDATE `venuedata` SET `description`='$mdesc',`length`='$length',`breadth`='$breadth' WHERE `id` = '$mid'";
 	$result1=mysql_query($querry1);
 
 	$querry2="UPDATE `apdata` SET `A`='$ap1_a',`n`='$ap1_n',`x`='$ap1_x',`y`='$ap1_y' WHERE `ap_ssid` = '$ap1_ssid'";

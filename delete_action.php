@@ -10,9 +10,9 @@ if(isset($_POST['delete']))
 
 	$foo=$_POST['foo'];
 	
-	$q1="DELETE FROM `venuedata` where `mid` = '$foo' ";
+	$q1="DELETE FROM `venuedata` where `id` = '$foo' ";
 	$r1=mysql_query($q1);
-	$q2="DELETE FROM `apdata` where `mid` = '$foo' ";
+	$q2="DELETE FROM `apdata` where `id` = '$foo' ";
 	$r2=mysql_query($q2);
 
 	if($r1 && $r2)
